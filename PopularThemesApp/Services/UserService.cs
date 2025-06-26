@@ -12,9 +12,16 @@ namespace PopularThemesApp.Services
             _userRepository = userRepository;
         }
 
-        public void LoadUsersFromFile(string usersFilePath)
+        public bool LoadUsersFromFile(string usersFilePath)
         {
-             _userRepository.LoadUsersFromFile(usersFilePath);
+            try
+            {
+                return _userRepository.LoadUsersFromFile(usersFilePath);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public List<User> GetAllUsers()

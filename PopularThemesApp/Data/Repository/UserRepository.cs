@@ -6,8 +6,9 @@ namespace PopularThemesApp.Data.Repository
     {
         private readonly List<User> _users = new List<User>();
 
-        public void LoadUsersFromFile(string usersFilePath)
+        public bool LoadUsersFromFile(string usersFilePath)
         {
+            bool addedUsers = false;
             if (!string.IsNullOrWhiteSpace(usersFilePath))
             {
                 var usersFileData = File.ReadAllLines(usersFilePath);
@@ -18,7 +19,7 @@ namespace PopularThemesApp.Data.Repository
                     {
                         var userInformation = line.Split("\t");
 
-                        if (userInformation.Length != 2 || !int.TryParse(userInformation[0], out int id))
+                        if (userInformation.Length != 2 || !int.TryParse(userInformation[0], out int id) || string.IsNullOrWhiteSpace(userInformation[1]))
                         {
                             continue;
                         }
@@ -28,9 +29,13 @@ namespace PopularThemesApp.Data.Repository
                             Id = id,
                             FullName = userInformation[1],
                         });
+
+                        addedUsers = true;
                     }
                 }
             }
+
+            return addedUsers;
         }
 
         public List<User> GetAllUsers()

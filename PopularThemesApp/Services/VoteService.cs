@@ -14,9 +14,16 @@ namespace PopularThemesApp.Services
             _userRepository = userRepository;
         }
 
-        public void LoadVotesFromFile(string votesFilePath)
+        public bool LoadVotesFromFile(string votesFilePath)
         {
-            _voteRepository.LoadVotesFromFile(votesFilePath);
+            try
+            {
+                return _voteRepository.LoadVotesFromFile(votesFilePath);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public string GetMostVotedColour()
@@ -48,7 +55,6 @@ namespace PopularThemesApp.Services
 
             return mostVotedColour;
         }
-
 
         public List<User> GetUsersWhoVotedForColour(string mostVotedColor)
         {

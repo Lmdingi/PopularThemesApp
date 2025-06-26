@@ -6,8 +6,9 @@ namespace PopularThemesApp.Data.Repository
     {
         private readonly List<Vote> _votes = new List<Vote>();
 
-        public void LoadVotesFromFile(string votesFilePath)
+        public bool LoadVotesFromFile(string votesFilePath)
         {
+            bool addedVotes = false;
             if (!string.IsNullOrWhiteSpace(votesFilePath))
             {
                 var votesFileData = File.ReadAllLines(votesFilePath);
@@ -28,9 +29,13 @@ namespace PopularThemesApp.Data.Repository
                             UserId = userId,
                             Colour = voteInformation[1],
                         });
+
+                        addedVotes = true;
                     }
                 }
             }
+
+            return addedVotes;
         }
 
         internal List<Vote> GetAllVotes()
